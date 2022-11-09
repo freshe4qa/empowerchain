@@ -51,7 +51,7 @@ git checkout v0.0.2
 cd chain && make build
 ```
 
-Wait until the upgrade time. At the upgrade time, move to the next section.
+Wait until your node reaches update block height (580 000) and it will shut down on its own. __Proceed with next steps only if your node reached update height!__
 
 ### Replace the binaries
 
