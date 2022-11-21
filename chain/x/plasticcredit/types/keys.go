@@ -1,5 +1,13 @@
 package types
 
+// TODO probably better idea to have it in keeper package so key fetching can be private
+
+import (
+	"github.com/cosmos/cosmos-sdk/internal/conv"
+	sdk "github.com/cosmos/cosmos-sdk/types"
+	"github.com/cosmos/cosmos-sdk/types/address"
+)
+
 const (
 	// ModuleName defines the module name
 	ModuleName = "plasticcredit"
@@ -14,6 +22,10 @@ const (
 	MemStoreKey = "mem_plasticcredit"
 )
 
+var (
+	KeeperAccessKeyPrefix = []byte{0x01}
+)
+
 func KeyPrefix(p string) []byte {
 	return []byte(p)
 }
@@ -21,3 +33,11 @@ func KeyPrefix(p string) []byte {
 const (
 	IdCountersKey = "IdCounters/value/"
 )
+
+func KeeperAccessKey(account sdk.AccAddress, msgType string) []byte {
+	m := conv.UnsafeStrToBytes(msgType)
+	account = address.MustLengthPrefix(account)
+	key := sdk.AppendLengthPrefixedBytes(KeeperAccessKeyPrefix, account, m)
+
+	return key
+}
